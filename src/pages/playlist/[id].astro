@@ -1,0 +1,88 @@
+---
+import moment from "moment";
+
+import PlayListItemCard from "@/components/PlayListItemCard.astro";
+import { allPlaylists, songs } from "@/lib/data";
+
+import Layout from "../../layouts/Layout.astro";
+import Play from "@/icons/Play.astro";
+
+const { id } = Astro.params;
+
+const playlist = allPlaylists.find((item) => item.id === id);
+
+if (!playlist) return Astro.redirect("/404");
+
+const playListSongs = songs.filter(
+	(song) => song.albumId === playlist?.albumId
+);
+
+const totalDuration = moment.duration(
+	playListSongs.reduce((sum, item) => {
+		const [minutes, seconds] = item.duration.split(":").map(Number);
+		return sum + moment.duration({ minutes, seconds }).asSeconds();
+	}, 0),
+	"seconds",
+);
+
+// Extracting total hours, total minutes, and total seconds separately
+const totalHours = Math.floor(totalDuration.asHours());
+const totalMinutes = Math.floor(totalDuration.asMinutes()) % 60;
+const totalSeconds = Math.floor(totalDuration.asSeconds()) % 60;
+---
+
+<Layout title="Spotify polacodev">
+	<!-- id="playlist-container" -->
+	<div
+		class="relative flex flex-col bg-zinc-900 overflow-x-hidden"
+		transition:name=`playlist ${id} box`
+	>
+		<header class="flex flex-row gap-8 px-6 mt-10">
+			<picture class="aspect-square size-52 flex-none">
+				<img
+					src={playlist?.cover}
+					alt=`Cover by ${playlist?.title}`
+					class="object-cover size-full rounded-md"
+					transition:name=`playlist ${playlist?.id} image`
+				/>
+			</picture>
+			<div class="flex flex-col justify-between">
+				<h2 class="flex flex-1 items-end">Public Playlist</h2>
+				<div>
+					<h1 class="text-5xl font-bold block text-white">
+						{playlist?.title}
+						<span transition:name=`playlist ${playlist?.id} title`></span>
+					</h1>
+				</div>
+
+				<div class="flex-1 flex items-end">
+					<div class="text-sm text-gray-300 font-normal">
+						<div transition:name=`playlist ${playlist?.id} artists`>
+							<span class="text-zinc-100">{playlist?.artists.join(", ")}</span>
+						</div>
+						{
+							playListSongs.length > 0 ? (
+								<p class="text-zinc-100 mt-1">
+									<span class="text-zinc-100">
+										{playListSongs.length} songs
+									</span>
+									,{totalHours > 0 ? totalHours + " hr" : ""}{" "}
+									{totalMinutes > 0 ? totalMinutes + " min" : ""}{" "}
+									{totalSeconds > 0 ? totalSeconds + " sec" : ""}
+								</p>
+							) : (
+								<p class="text-zinc-100 mt-1">No songs on this Playlist</p>
+							)
+						}
+					</div>
+				</div>
+			</div>
+		</header>
+		<div
+			class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80 -z-10"
+		>
+		</div>
+	</div>
+
+	<style></style>
+</Layout>
