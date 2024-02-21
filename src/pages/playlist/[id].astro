@@ -14,7 +14,7 @@ const playlist = allPlaylists.find((item) => item.id === id);
 if (!playlist) return Astro.redirect("/404");
 
 const playListSongs = songs.filter(
-	(song) => song.albumId === playlist?.albumId
+	(song) => song.albumId === playlist?.albumId,
 );
 
 const totalDuration = moment.duration(

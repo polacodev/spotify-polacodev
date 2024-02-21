@@ -1,6 +1,8 @@
 ---
 import { type Playlist } from "@/lib/data";
 
+import CardPlayButton from "@/components/CardPlayButton";
+
 interface Props {
 	playlist: Playlist;
 }
@@ -11,29 +13,38 @@ const { albumId, artists, color, cover, id, title } = playlist;
 const artistString = artists.join(", ");
 ---
 
-<a
-	href={`/playlist/${id}`}
-	class="playlist-item transition-all duration-300 flex relative p-3 overflow-hidden items-center gap-5 rounded-md bg-[#181818] shadow-lg hover:shadow-xl hover:bg-[#282828] flex-col w-48"
-	transition:name={`playlist ${id} box`}
->
-	<picture class="aspect-square w-full h-auto flex-none">
-		<img
-			src={cover}
-			alt={`Cover by ${title} and ${artistString}`}
-			class="object-cover size-full rounded-md"
-			transition:name=`playlist ${id} image`
-		/>
-	</picture>
-	<div class="flex justify-start flex-col px-2 truncate">
-		<h4
-			class="text-zinc-100 text-sm font-bold truncate"
-			transition:name=`playlist ${playlist?.id} title`
-		>
-			{title}
-		</h4>
-		<span
-			class="text-zinc-400 text-sm truncate"
-			transition:name=`playlist ${playlist?.id} artists`>{artistString}</span
-		>
+<article class="group relative">
+	<div
+		class=`absolute right-5 bottom-20 translate-y-4 transition-all duration-500
+			opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-10`
+	>
+		<CardPlayButton id={id} />
 	</div>
-</a>
+	<a
+		href={`/playlist/${id}`}
+		class=`playlist-item transition-all duration-300 flex relative p-3 overflow-hidden items-center gap-5
+		 rounded-md bg-[#181818] shadow-lg hover:shadow-xl hover:bg-[#282828] flex-col w-48`
+		transition:name={`playlist ${id} box`}
+	>
+		<picture class="aspect-square w-full h-auto flex-none bott">
+			<img
+				src={cover}
+				alt={`Cover by ${title} and ${artistString}`}
+				class="object-cover size-full rounded-md"
+				transition:name=`playlist ${id} image`
+			/>
+		</picture>
+		<div class="flex justify-start flex-col px-2 truncate">
+			<h4
+				class="text-zinc-100 text-sm font-bold truncate"
+				transition:name=`playlist ${playlist?.id} title`
+			>
+				{title}
+			</h4>
+			<span
+				class="text-zinc-400 text-sm truncate"
+				transition:name=`playlist ${playlist?.id} artists`>{artistString}</span
+			>
+		</div>
+	</a>
+</article>
