@@ -1,5 +1,6 @@
 ---
 import type { Playlist } from "@/lib/data";
+import { Image } from 'astro:assets';
 
 interface Props {
 	playlist: Playlist;
@@ -16,9 +17,12 @@ const artistString = artists.join(", ");
 	class="playlist-item flex relative p-2 overflow-hidden items-center gap-2 rounded-md hover:bg-zinc-800/50"
 >
 	<picture class="size-12 flex-none">
-		<img
+		<Image
 			src={cover}
 			alt={`Cover by ${title} and ${artistString}`}
+			width="100"
+			height="100"
+			loading="eager"
 			class="object-cover size-full rounded-md"
 		/>
 	</picture>
