@@ -23,4 +23,5 @@ npm run dev
 * Tailwindcss
 * Typescript
 
+![image](https://github.com/polacodev/spotify-polacodev/assets/158519820/8731931d-f947-49c3-9a66-47b6ff194550)
 
