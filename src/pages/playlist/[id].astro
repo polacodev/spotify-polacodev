@@ -2,11 +2,13 @@
 import moment from "moment";
 
 import PlayListItemCard from "@/components/PlayListItemCard.astro";
+import CardPlayButton from "@/components/CardPlayButton";
 import { allPlaylists, songs } from "@/lib/data";
 
 import Layout from "../../layouts/Layout.astro";
 import Play from "@/icons/Play.astro";
 import { Image } from "astro:assets";
+import MusicsTable from "@/components/MusicsTable.astro";
 
 const { id } = Astro.params;
 
@@ -88,5 +90,13 @@ const totalSeconds = Math.floor(totalDuration.asSeconds()) % 60;
 		</div>
 	</div>
 
-	<style></style>
+	<div class="p-7">
+		<CardPlayButton id={id} size="large" client:load />
+	</div>
+
+	<section class="p-8">
+		<MusicsTable songs={playListSongs} />
+	</section>
 </Layout>
+
+<style></style>
